@@ -1,14 +1,14 @@
 {
-  "name": "simple",
+  "name": "wgen",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Simple website generator",
+  "main": "dist/wgen",
   "scripts": {
-    "build": "node build.js -O",
-    "dev": "node build.js -w"
+    "build": "node build.js -O -target node",
+    "dev": "node build.js -w -target node"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "https://rsms.me/",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^12.12.7",
     "google-closure-compiler": "^20191027.0.0",
