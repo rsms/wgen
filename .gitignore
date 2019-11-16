@@ -1,0 +1,9 @@
+/dist
+/_*
+_build
+.build*
+node_modules
+.DS_Store
+.vscode
+*~
+*.sublime*

@@ -1,0 +1,23 @@
+{
+  "name": "simple",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "node build.js -O",
+    "dev": "node build.js -w"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/ejs": "^2.6.3",
+    "@types/node": "^12.12.7",
+    "ejs": "^2.7.1",
+    "google-closure-compiler": "^20191027.0.0",
+    "rollup": "^1.27.0",
+    "rollup-plugin-typescript2": "^0.25.2",
+    "source-map-support": "^0.5.16",
+    "typescript": "^3.7.2",
+    "uglify-es": "^3.3.9"
+  }
+}

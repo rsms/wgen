@@ -1,0 +1,60 @@
+<? console.log("console.log from template") -?>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title><?= title ?></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="/r/index.css">
+  </head>
+
+  <?- print(title) -?>
+
+  <div1/>
+
+  <?- print(title) ?>
+
+  <div2/>
+
+  <? print(title) -?>
+
+  <div3/>
+
+  <? print(title) ?>
+
+  <body>
+    <?-
+
+    /*
+    include
+    some stuff */
+    include("lol.html", { message: "Meow" })
+    // internet
+    include("lol.html", { message: "Purr" }) //lolcat
+    // include("lol.html", { message: "Meow" })
+
+     -?>
+
+    <div id="sidebar">
+      <h3><a href="/"><?= title ?></a></h3>
+
+      <ul class="compact">
+        <?
+
+        ?>
+      <?
+for (let page of pages) { ?>
+        <li>
+          <a href="<?= page.url ?>"><?= page.title ?></a>
+        </li>
+      <? } ?>
+      </ul>
+    </div>
+
+    <div id="main">
+      <h1><?= title ?></h2>
+      <? print(content) ?>
+    </div>
+
+    <div id="sidebar-right"></div>
+  </body>
+</html>
