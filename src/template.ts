@@ -195,7 +195,7 @@ function parse(source :string) :string {
   }
 
   const re = /(\s*)<\?-((?:(?!-\?>|\?>).)*)(-?)\?>(\s*)|<\?((?:(?!-\?>|\?>).)*)(-?)\?>(\s*)/sgm
-  //        1        2                   3      4        5                   6      7
+  //          1        2                   3      4        5                   6      7
   const jsclose = ";"
   const plainopen = "print(`"
   const plainclose = "`)" + jsclose
