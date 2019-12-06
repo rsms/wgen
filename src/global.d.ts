@@ -48,6 +48,15 @@ declare interface AssertFun {
 }
 declare var assert :AssertFun
 
+// assertThrows tests that f causes an error to be thrown.
+// If errpat is defined, the error's message must also match errpat.
+//
+declare function assertThrows(f:()=>any, errpat? :RegExp|string, msg? :string, cons? :Function) :void
+
+// assertEquals tests if a === b
+//
+declare function assertEquals(a :any, b :any, msg? :string, cons? :Function) :void
+
 // repr resturns a detailed string representation of the input
 //
 declare function repr(obj :any, maxdepth? :int) :string

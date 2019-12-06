@@ -65,7 +65,13 @@ function print() {
   console.log.apply(console, Array.prototype.slice.call(arguments))
 }
 
-const dlog = DEBUG ? console.log.bind(console, '[D]') : function(){}
+const dlog = DEBUG ? function _dlog(){
+  let e = new Error()
+  let m = e.stack.split(/\n/, 3)[2].match(/(src\/[^\/]+:\d+:\d+)/)
+  let loc = m ? `D ${m[1]}:` : "D:"
+  console.log.apply(console, [loc, ...arguments])
+} : function(){}
+
 
 function panic(msg) {
   console.error.apply(console,
@@ -121,9 +127,45 @@ function assert() {
   }
 }
 
+function assertThrows(f, errpat, msg, cons) {
+  if (DEBUG) {
+    try {
+      f()
+    } catch(e) {
+      if (errpat) {
+        let emsg = String(e.message || e)
+        assert(
+          (errpat instanceof RegExp ? errpat.test(emsg) : errpat == emsg),
+          msg || (
+            "Error did not match." +
+            "\n  expect error to match: " + errpat +
+            "\n  actual error message:  " + emsg
+          ),
+          cons || assertThrows
+        )
+      }
+      return
+    }
+    assert(false, msg || "did not throw an error", cons || assertThrows)
+  }
+}
+
+function assertEquals(a, b, msg, cons) {
+  if (DEBUG) {
+    assert(
+      a === b,
+      msg || `\n  ${repr(a)}\n  !=\n  ${repr(b)}`,
+      cons || assertEquals
+    )
+  }
+}
+
+
 var repr = __utillib && __utillib.inspect ? function repr(obj, maxdepth) {
-  let color = typeof process != "undefined" && process.stdout && process.stdout.isTTY;
-  return __utillib.inspect(obj, /*showHidden*/false, /*depth*/maxdepth||4, !!color)
+  if (maxdepth === undefined) {
+    maxdepth = 3
+  }
+  return __utillib.inspect(obj, /*showHidden*/false, maxdepth)
 } : function repr(obj, maxdepth) {
   // TODO: something better
   try {

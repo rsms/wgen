@@ -1,12 +1,14 @@
 import * as cli from "./cli"
+import * as Path from "./path"
 import { Config } from "./config"
 import { build } from "./builder"
+import { fmtduration, monotime } from "./util"
 
 const options :cli.FlagSpec[] = [
   ["o",       `Write output to directory. Defaults to \"_build\".`, "<dir>"],
   ["C",       `Sets working directory`, "<dir>"],
   [["g", "dev"], `Enable development mode`],
-  ["verbose", "Print detailed information about what simple is doing"],
+  ["quiet",   "Only print errors"],
   ["version", "Print version information"],
 ]
 
@@ -34,14 +36,20 @@ async function main(argv :string[]) :Promise<int> {
     return 0
   }
 
-  let config = new Config()
-  config.srcdir = opt.C || config.srcdir
-  config.outdir = opt.o || config.outdir
-  config.debug  = !!(opt.g || opt.dev)
+  let c = new Config()
+  c.srcdir = opt.C || c.srcdir
+  c.outdir = opt.o || c.outdir
+  c.quiet  = opt.quiet
+  c.debug  = !!(opt.g || opt.dev)
+  c.baseUrl = "/"  // must end in "/"
+  c.name = c.srcdir == "." ? Path.base(Path.resolve(c.srcdir)) : c.srcdir
 
-  // dlog({opt, args, config})
+  let timeStart = monotime()
+  c.log(`Building ${c.name}`)
 
-  await build(config)
+  await build(c)
+
+  c.log(`Built ${c.name} in ${fmtduration(monotime() - timeStart)}`)
 
   return 0
 }

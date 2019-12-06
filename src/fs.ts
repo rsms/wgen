@@ -3,15 +3,21 @@ import { promisify } from 'util'
 import * as Path from "./path"
 import { parseVersion } from './util'
 
-export const stat = promisify(fs.stat)
-export const lstat = promisify(fs.lstat)
-export const statSync = fs.statSync
-export const mkdir = promisify(fs.mkdir)
-export const symlink = promisify(fs.symlink)
-export const readlink = promisify(fs.readlink)
-export const unlink = promisify(fs.unlink)
-export const realpathSync = fs.realpathSync.native
-export const constants = fs.constants
+export const
+   constants    = fs.constants
+ , closeSync    = fs.closeSync
+ , close        = promisify(fs.close)
+ , lstat        = promisify(fs.lstat)
+ , mkdir        = promisify(fs.mkdir)
+ , openSync     = fs.openSync
+ , read         = promisify(fs.read)
+ , readlink     = promisify(fs.readlink)
+ , readSync     = fs.readSync
+ , realpathSync = fs.realpathSync.native
+ , stat         = promisify(fs.stat)
+ , statSync     = fs.statSync
+ , symlink      = promisify(fs.symlink)
+ , unlink       = promisify(fs.unlink)
 
 const node_v10_12_0 = parseVersion("10.12.0")
 const node_version  = parseVersion(process.version.substr(1))
@@ -86,7 +92,7 @@ const _writefile = promisify(fs.writeFile)
 export function writefile(
   path :fs.PathLike | number,
   data :any,
-  options :fs.WriteFileOptions,
+  options? :fs.WriteFileOptions,
 ) :Promise<void> {
   return _writefile(path, data, options).catch(async (err) => {
     if (err.code != 'ENOENT' || typeof path == "number") {
